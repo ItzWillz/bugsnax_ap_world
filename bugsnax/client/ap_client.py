@@ -12,7 +12,7 @@ from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser,
 from .bugsnax_memory import get_pymem, read_item, write_item
 from .bugsnax_paths import find_save_path
 from .bug_capture_checks import BUG_CAPTURE_CHECKS, SPECIAL_LOCATIONS
-from .item_name_translation import GRANTABLE_TOOLS, KNOWN_UNSUPPORTED, MOD_SUPPRESSED_TOOLS
+from .item_name_translation import GRANTABLE_TOOLS, KNOWN_UNSUPPORTED, MOD_SUPPRESSED_TOOLS, USE_FILLER
 
 GATE = "AnyToolOwnedGate"
 POLL_INTERVAL = 0.5
@@ -23,6 +23,10 @@ QUEST_CHECKS = {
     "Collect Buggy Ball": ("GrambleMainQuest1", "Active"),
     "Collect SnakGrappler": ("GetHook", "ConditionMet"),
     "Collect Lunchpad": ("CromdoMainQuest1", "Active"),
+    # -- Still release checks upon logic break (Speedrun strat Tutorial --> Ghost Snaxburg --> Sugarpine Woods --> Frosted Peak --> Return to Sugarpine Woods)
+    # "Collect Buggy Ball": [("GrambleMainQuest1", "Active"), ("GrambleMainQuest1", "Completed")],
+    # "Collect SnakGrappler": [("GetHook", "ConditionMet"), ("ChandloMainQuest5", "Completed")],
+    # "Collect Lunchpad": [("CromdoMainQuest1", "Active"), ("CromdoMainQuest1", "Completed")],
 
     # --- Story missions (all require Sauce Slinger at minimum) ---
     "Gone Home!": ("FilboInterview", "Completed"),
@@ -51,6 +55,46 @@ QUEST_CHECKS = {
     "Floofty Changes Everything": ("FlooftyMainQuest4", "Completed"),
     "Shelda Speaks in Riddles": ("SheldaMainQuest4", "Completed"),
     "Eggabell Keeps Her Cool": ("EggabellMainQuest3", "Completed"),
+
+    # --- Side quests (require Sauce Slinger) ---
+    "Roots and Fruits!": ("WambusSideQuest1", "Completed"),
+
+    # --- Side quests (require Sauce Slinger + Buggy Ball) ---
+    #"Soiled!": ("WambusSideQuest2", "Completed"), -- Is it not 2?? (multi-part quest)
+    'Rumor Mill!': ("BefficaSideQuest1", "Completed"),
+    'Empty Nest!': ("GrambleSideQuest1", "Completed"),
+
+    # --- Side quests (require Sauce Slinger + Buggy Ball + Lunchpad) ---
+    "That's a Relief!": ("TriffanySideQuest1", "Completed"),
+
+    # --- Side quests (require Sauce Slinger + Buggy Ball + Lunchpad + Tripshot) ---
+
+    # --- Side quests (require Sauce Slinger + Buggy Ball + Lunchpad + Tripshot + SnakGrappler) ---
+    #"Undergrowth!": ("WambusSideQuest3", "Completed"),
+    #'The Big Snoop!': ("BefficaSideQuest2", "Completed"), -- Is it not 2?? (multi-part quest)
+    #'Imitation Beef!': ("BefficaSideQuest3", "Completed"),
+    'Training Day!': ("GrambleSideQuest2", "Completed"),
+    'More to Love!': ("GrambleSideQuest3", "Completed"), 
+    'Yellow Submarine!': ("WiggleSideQuest1", "Completed"), 
+    'Fly Me to the Moon!': ("WiggleSideQuest2", "Completed"), 
+    'Dance with the Dragon!': ("WiggleSideQuest3", "Completed"),
+    "Dead Man's Chest!": ("TriffanySideQuest2", "Completed"),
+    'A Peak to Remember!': ("TriffanySideQuest3", "Completed"),
+    'Deal or No Deal!': ("CromdoSideQuest1", "Completed"),
+    'Inside Man!': ("CromdoSideQuest2", "Completed"),
+    'A Slice of Heaven!': ("CromdoSideQuest3", "Completed"),
+    "Beef Up!": ("ChandloSideQuest1", "Completed"),
+    "Weigh In!": ("ChandloSideQuest2", "Completed"),
+    "Throw Down!": ("ChandloSideQuest3", "Completed"),
+    'Splitting Up!': ("SnorpySideQuest1", "Completed"), 
+    'Get Lit!': ("SnorpySideQuest2", "Completed"), 
+    'Cake Boss!': ("SnorpySideQuest3", "Completed"),
+    'Box Lunch!': ("SheldaSideQuest1", "Completed"),
+    'Dream of Bugsnax!': ("SheldaSideQuest2", "Completed"),
+    'False Idol!': ("SheldaSideQuest3", "Completed"),
+    'Volunteers Needed!': ("FlooftySideQuest1", "Completed"),
+    'Last Meal!': ("FlooftySideQuest2", "Completed"),
+    'Head Games!': ("FlooftySideQuest3", "Completed"), 
 }
 
 GOAL_AREA_KEY = "GameCurrentArea"
@@ -119,6 +163,7 @@ class BugsnaxContext(CommonContext):
         self.location_name_to_id = {}
         self.checked_locations_local = set()
         self.ap_granted_tools = set()
+        self.ap_grant_fill = set()
         self.tools_logged = set()
         self.last_captured_state = {}
         self.last_quest_status = {}
@@ -152,6 +197,7 @@ class BugsnaxContext(CommonContext):
         elif cmd == "Connected":
             self.checked_locations_local = set()
             self.ap_granted_tools = set()
+            self.ap_grant_fill = set()
             self.tools_logged = set()
             self.last_captured_state = {}
             self.last_quest_status = {}
@@ -211,6 +257,11 @@ class BugsnaxContext(CommonContext):
         if item_name in FILLER_ITEMS:
             logger.debug(f"  ({item_name} - junk filler, nothing to grant)")
             return
+
+        if item_name in USE_FILLER:
+            logger.debug(f"  ({item_name} - useable filler, grant)")
+            self.ap_grant_fill.add(item_name)
+            return        
 
         if item_name in KNOWN_UNSUPPORTED:
             logger.debug(f"  (can't grant {item_name!r} yet: {KNOWN_UNSUPPORTED[item_name]})")
@@ -290,6 +341,25 @@ def enforce_tool_suppression(ctx: BugsnaxContext):
         except Exception:
             pass
 
+def enforce_filler_grant(ctx: BugsnaxContext):
+    if not ctx.ap_grant_fill:
+        return
+
+    try:
+        ctx.pm = get_pymem()
+    except Exception:
+        return
+
+    for item_name in ctx.ap_grant_fill:
+        internal = USE_FILLER[item_name]
+        grant_value = 2 if internal in MOD_SUPPRESSED_TOOLS else 1
+        try:
+            write_item(ctx.pm, GATE, max(read_item(ctx.pm, GATE), 1))
+            write_item(ctx.pm, f"{internal}_Selectable", grant_value)
+            ctx.ap_grant_fill.remove(item_name)
+        except Exception:
+            pass
+
 
 async def bugsnax_watcher(ctx: BugsnaxContext):
     """Background task: this watches the save file for captures/quest transitions/
@@ -301,6 +371,8 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
 
         enforce_tool_grants(ctx)
         enforce_tool_suppression(ctx)
+
+        enforce_filler_grant(ctx)
 
         if ctx.save_path is None:
             try:

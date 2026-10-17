@@ -33,10 +33,15 @@ CORE_TOOLS = [
 ]
 
 ITEM_CHAINS = {
-    "Ketchup": {
+    # Sauce Selectable on the wheel - Potentially?
+    "Ketchup_Selectable": {
         "base_offset": 0x760E00,
         "offsets": [0xC0, 0x20, 0x10, 0xB8, 0x28],
     },
+    "Chocolate_Selectable": {
+        "base_offset": 0x760E00,
+        "offsets": [0xC0, 0x20, 0x10, 0xC0, 0x28],
+    },    
     # NOTE: this is NOT per-item. It's a shared gate that controls whether
     # the toolwheel menu is willing to open at all ("do you own ANY tool").
     # Write it once as it's not part of granting a specific item.

@@ -20,10 +20,12 @@ item_table: dict[str, ItemData] = {
     'Golden Snax': ItemData(BASE_ID + 8, ItemClassification.progression, 50),
     'Story Complete Token': ItemData(BASE_ID + 9, ItemClassification.progression, 1),
     'BUNGER!': ItemData(BASE_ID + 10, ItemClassification.filler, 16),
-    'BOPSICLE!': ItemData(BASE_ID + 11, ItemClassification.filler, 16),
+    'BOPSICLE!': ItemData(BASE_ID + 11, ItemClassification.filler, 19),
     'STRABBY!': ItemData(BASE_ID + 12, ItemClassification.filler, 15),
     'CRAPPLE!': ItemData(BASE_ID + 13, ItemClassification.filler, 15),
+    'Ketchup!': ItemData(BASE_ID + 14, ItemClassification.filler, 18),
+    'Chocolate!': ItemData(BASE_ID + 15, ItemClassification.filler, 18),
 }
 
-FILLER_ITEM_NAMES = ['BUNGER!', 'BOPSICLE!', 'STRABBY!', 'CRAPPLE!']
+FILLER_ITEM_NAMES = ['BUNGER!', 'BOPSICLE!', 'STRABBY!', 'CRAPPLE!', 'Ketchup!', "Chocolate!"]
 MAX_GOLDEN_SNAX = 50

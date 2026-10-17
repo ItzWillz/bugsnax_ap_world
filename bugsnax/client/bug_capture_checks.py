@@ -108,7 +108,18 @@ BUG_CAPTURE_CHECKS = {
     "Catch Cheery": "Content/Definitions/Bugs/Cherry.xml",
     "Catch Scoopy Banoopy": "Content/Definitions/Bugs/BananaSplit.xml",
     "Catch Instabug": "Content/Definitions/Bugs/Shishkabob_Insta.xml",
-    "Catch Melty Snakpod": "Content/Definitions/Bugs/SnackBag_Candy.xml",}
+    "Catch Melty Snakpod": "Content/Definitions/Bugs/SnackBag_Candy.xml",
+    "Catch Mama Mewon": "Content/Definitions/Bugs/Watermelon.xml",
+    "Catch Wee Mewon": "Content/Definitions/Bugs/WatermelonBall.xml",
+    "Catch Bombino": "Content/Definitions/Bugs/PizzaSnack.xml",
+    "Catch Mothza Supreme": "Content/Definitions/Bugs/Pizza.xml",
+    "Catch Minimaki": "Content/Definitions/Bugs/Sushi.xml",
+    "Catch Megamaki": "Content/Definitions/Bugs/SushiHead.xml",
+    "Catch Baby Cakelegs": "Content/Definitions/Bugs/CakeSlice.xml",
+    "Catch Daddy Cakelegs": "Content/Definitions/Bugs/Cake.xml",
+    "Catch Cappucceetle": "Content/Definitions/Bugs/Coffee.xml",
+    }
+
 
 # Not tied to a single Captured-section entry -- needs separate logic later
 SPECIAL_LOCATIONS = ["Catch All Inner Bugs!", "Starting Region Randomizer"]
