@@ -20,13 +20,10 @@ POLL_INTERVAL = 0.5
 QUEST_CHECKS = {
     "Collect Snak Trap": ("FilboMainQuest2", "Active"),
     "Collect Sauce Slinger": ("WambusMainQuest1", "Active"),
-    "Collect Buggy Ball": ("GrambleMainQuest1", "Active"),
-    "Collect SnakGrappler": ("GetHook", "ConditionMet"),
-    "Collect Lunchpad": ("CromdoMainQuest1", "Active"),
     # -- Still release checks upon logic break (Speedrun strat Tutorial --> Ghost Snaxburg --> Sugarpine Woods --> Frosted Peak --> Return to Sugarpine Woods)
-    # "Collect Buggy Ball": [("GrambleMainQuest1", "Active"), ("GrambleMainQuest1", "Completed")],
-    # "Collect SnakGrappler": [("GetHook", "ConditionMet"), ("ChandloMainQuest5", "Completed")],
-    # "Collect Lunchpad": [("CromdoMainQuest1", "Active"), ("CromdoMainQuest1", "Completed")],
+    "Collect Buggy Ball": [("GrambleMainQuest1", "Active"), ("GrambleMainQuest3", "Completed")],
+    "Collect SnakGrappler": [("GetHook", "ConditionMet"), ("ChandloMainQuest5", "Completed")],
+    "Collect Lunchpad": [("CromdoMainQuest1", "Active"), ("CromdoMainQuest4", "Completed")],
 
     # --- Story missions (all require Sauce Slinger at minimum) ---
     "Gone Home!": ("FilboInterview", "Completed"),
@@ -417,16 +414,31 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
                         ctx.last_captured_state[save_key] = new_val
 
                 for loc_name, (quest_name, target_status) in QUEST_CHECKS.items():
-                    if loc_name in ctx.checked_locations_local:
-                        continue
-                    new_status = quest_status(quests.get(quest_name))
-                    old_status = ctx.last_quest_status.get(quest_name)
-                    if new_status == target_status and old_status != target_status:
-                        logger.debug(f"Detected '{quest_name}' -> {target_status}. "
-                                    f"Sending check for '{loc_name}'...")
-                        ctx.send_location_check(loc_name)
-                    if new_status is not None:
-                        ctx.last_quest_status[quest_name] = new_status
+                    # Checks Quests with multiple cases (Awards Buggy Ball/Lunchpad/SnakGrappler when leaving Frosted Peak Skip)
+                    if type(QUEST_CHECKS[loc_name]) == list:
+                        for quest_name, target_status in QUEST_CHECKS[loc_name]:
+                            if loc_name in ctx.checked_locations_local:
+                                continue
+                            new_status = quest_status(quests.get(quest_name))
+                            old_status = ctx.last_quest_status.get(quest_name)
+                            if new_status == target_status and old_status != target_status:
+                                logger.debug(f"Detected '{quest_name}' -> {target_status}. "
+                                            f"Sending check for '{loc_name}'...")
+                                ctx.send_location_check(loc_name)
+                            if new_status is not None:
+                                ctx.last_quest_status[quest_name] = new_status
+
+                    else:
+                        if loc_name in ctx.checked_locations_local:
+                            continue
+                        new_status = quest_status(quests.get(quest_name))
+                        old_status = ctx.last_quest_status.get(quest_name)
+                        if new_status == target_status and old_status != target_status:
+                            logger.debug(f"Detected '{quest_name}' -> {target_status}. "
+                                        f"Sending check for '{loc_name}'...")
+                            ctx.send_location_check(loc_name)
+                        if new_status is not None:
+                            ctx.last_quest_status[quest_name] = new_status
 
                 new_area = save.get(GOAL_AREA_KEY)
                 old_area = ctx.last_area_state.get(GOAL_AREA_KEY)
