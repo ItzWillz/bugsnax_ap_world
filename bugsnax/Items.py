@@ -23,7 +23,7 @@ item_table: dict[str, ItemData] = {
     'BOPSICLE!': ItemData(BASE_ID + 11, ItemClassification.filler, 19),
     'STRABBY!': ItemData(BASE_ID + 12, ItemClassification.filler, 15),
     'CRAPPLE!': ItemData(BASE_ID + 13, ItemClassification.filler, 15),
-    'Ketchup!': ItemData(BASE_ID + 14, ItemClassification.filler, 18),
+    'Ketchup!': ItemData(BASE_ID + 14, ItemClassification.filler, 19),
     'Chocolate!': ItemData(BASE_ID + 15, ItemClassification.filler, 18),
 }
 

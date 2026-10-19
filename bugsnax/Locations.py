@@ -144,7 +144,6 @@ location_table: dict[str, int] = {
     'More to Love!': BASE_ID + LOCATION_ID_OFFSET + 135,
     'Yellow Submarine!': BASE_ID + LOCATION_ID_OFFSET + 136,
     'Fly Me to the Moon!': BASE_ID + LOCATION_ID_OFFSET + 137,
-    'Dance with the Dragon!': BASE_ID + LOCATION_ID_OFFSET + 128,
     "That's a Relief!": BASE_ID + LOCATION_ID_OFFSET + 139,
     "Dead Man's Chest!": BASE_ID + LOCATION_ID_OFFSET + 140,
     'A Peak to Remember!': BASE_ID + LOCATION_ID_OFFSET + 141,
@@ -163,4 +162,5 @@ location_table: dict[str, int] = {
     'Volunteers Needed!': BASE_ID + LOCATION_ID_OFFSET + 154,
     'Last Meal!': BASE_ID + LOCATION_ID_OFFSET + 155,
     'Head Games!': BASE_ID + LOCATION_ID_OFFSET + 156,
+    'Dance with the Dragon!': BASE_ID + LOCATION_ID_OFFSET + 157,
 }
