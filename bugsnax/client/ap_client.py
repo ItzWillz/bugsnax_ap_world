@@ -57,7 +57,7 @@ QUEST_CHECKS = {
     "Roots and Fruits!": ("WambusSideQuest1", "Completed"),
 
     # --- Side quests (require Sauce Slinger + Buggy Ball) ---
-    "Soiled!": ("WambusSideQuest2", "Active"), # -- Is it not 2?? (multi-part quest)
+    "Soiled!": ("WambusSideQuest2", "Completed"), # -- (multi-part quest) Ends after first "Soiled" is completed.
     'Rumor Mill!': ("BefficaSideQuest1", "Completed"),
     'Empty Nest!': ("GrambleSideQuest1", "Completed"),
 
@@ -67,9 +67,9 @@ QUEST_CHECKS = {
     # --- Side quests (require Sauce Slinger + Buggy Ball + Lunchpad + Tripshot) ---
 
     # --- Side quests (require Sauce Slinger + Buggy Ball + Lunchpad + Tripshot + SnakGrappler) ---
-    "Undergrowth!": ("WambusSideQuest3", "Active"), # -- Iffy
-    'The Big Snoop!': ("BefficaSideQuest2", "Active"), # -- Is it not 2?? (multi-part quest)
-    'Imitation Beef!': ("BefficaSideQuest3", "Active"), # -- Iffy
+    "Undergrowth!": ("WambusSideQuest3", "Completed"),
+    'The Big Snoop!': ("BefficaSideQuest2", "Completed"),
+    'Imitation Beef!': ("BefficaSideQuest3", "Completed"),
 
     'Training Day!': ("GrambleSideQuest2", "Completed"),
     'More to Love!': ("GrambleSideQuest3", "Completed"), 
