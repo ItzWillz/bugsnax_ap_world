@@ -9,7 +9,7 @@ from worlds.LauncherComponents import Component, components, Type, launch_subpro
 from .Items import item_table, ItemData, FILLER_ITEM_NAMES, MAX_GOLDEN_SNAX
 from .Locations import location_table
 from .Options import BugsnaxOptions
-from .Rules import location_rules
+from .Rules import location_rules, ool_rules
 
 
 def _launch_client():
@@ -93,9 +93,14 @@ class BugsnaxWorld(World):
         snaxburg.locations.append(goal_event)
 
     def set_rules(self):
-        for loc_name, rule in location_rules.items():
-            location = self.multiworld.get_location(loc_name, self.player)
-            set_rule(location, lambda state, rule=rule: rule(state, self.player))
+        if self.options.snax_ool:
+            for loc_name, rule in ool_rules.items():
+                location = self.multiworld.get_location(loc_name, self.player)
+                set_rule(location, lambda state, rule=rule: rule(state, self.player))
+        else:
+            for loc_name, rule in location_rules.items():
+                location = self.multiworld.get_location(loc_name, self.player)
+                set_rule(location, lambda state, rule=rule: rule(state, self.player))
 
         goal_tools = ["Sauce Slinger", "Buggy Ball", "Trip Shot", "SnakGrappler", "Lunchpad"]
         golden_snax_required = self.options.golden_snax_required.value

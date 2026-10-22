@@ -15,6 +15,11 @@ GRANTABLE_TOOLS = {
 
 MOD_SUPPRESSED_TOOLS = {"StrabbyBall", "Slingshot", "Launchpad", "Hookshot", "Tripwire"}
 
+# Useable Filler Items 
+USE_FILLER = {
+    "Ketchup!" : "Sauce_Ketchup",
+    "Chocolate!" : "Sauce_Chocolate",
+}
 # (Bug Net and Snaktivator used to be here, but they've been removed from
 # the item pool entirely rather than "randomised but do nothing" as it was
 # confusing to players who were unaware of this.)

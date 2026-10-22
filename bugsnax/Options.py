@@ -2,7 +2,7 @@
 Options.py - YAML options.
 """
 from dataclasses import dataclass
-from Options import Range, PerGameCommonOptions
+from Options import Range, PerGameCommonOptions, Toggle
 
 
 class GoldenSnaxRequired(Range):
@@ -27,7 +27,16 @@ class GoldenSnaxExtra(Range):
     default = 0
 
 
+class SnaxOutOfLogic(Toggle):
+    """Snax Capturing will be determined out-of-logic.
+    WILL require Skips, Glitches & Unique ways to capture Snax.
+    E.g. Golden Kweeble will be in logic once you obtain Snak Trap & Sauce Slinger
+    """
+    display_name = "Snax Out of Logic"
+    default = False
+
 @dataclass
 class BugsnaxOptions(PerGameCommonOptions):
     golden_snax_required: GoldenSnaxRequired
     golden_snax_extra: GoldenSnaxExtra
+    snax_ool: SnaxOutOfLogic
