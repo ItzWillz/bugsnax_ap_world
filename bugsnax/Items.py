@@ -19,13 +19,17 @@ item_table: dict[str, ItemData] = {
     'Trip Shot': ItemData(BASE_ID + 5, ItemClassification.progression, 1),
     'Golden Snax': ItemData(BASE_ID + 8, ItemClassification.progression, 50),
     'Story Complete Token': ItemData(BASE_ID + 9, ItemClassification.progression, 1),
-    'BUNGER!': ItemData(BASE_ID + 10, ItemClassification.filler, 16),
-    'BOPSICLE!': ItemData(BASE_ID + 11, ItemClassification.filler, 19),
-    'STRABBY!': ItemData(BASE_ID + 12, ItemClassification.filler, 15),
-    'CRAPPLE!': ItemData(BASE_ID + 13, ItemClassification.filler, 15),
-    'Ketchup!': ItemData(BASE_ID + 14, ItemClassification.filler, 19),
-    'Chocolate!': ItemData(BASE_ID + 15, ItemClassification.filler, 18),
+    'BUNGER!': ItemData(BASE_ID + 10, ItemClassification.filler, 10),
+    'BOPSICLE!': ItemData(BASE_ID + 11, ItemClassification.filler, 10),
+    'STRABBY!': ItemData(BASE_ID + 12, ItemClassification.filler, 10),
+    'CRAPPLE!': ItemData(BASE_ID + 13, ItemClassification.filler, 10),
+    'Ketchup!': ItemData(BASE_ID + 14, ItemClassification.filler, 11),
+    'Chocolate!': ItemData(BASE_ID + 15, ItemClassification.filler, 11),
+    'Hot Sauce!': ItemData(BASE_ID + 16, ItemClassification.filler, 10),
+    'Ranch!': ItemData(BASE_ID + 17, ItemClassification.filler, 10),
+    'Peanut Butter!': ItemData(BASE_ID + 18, ItemClassification.filler, 10),
+    'Cheese Sauce!': ItemData(BASE_ID + 19, ItemClassification.filler, 10),
 }
 
-FILLER_ITEM_NAMES = ['BUNGER!', 'BOPSICLE!', 'STRABBY!', 'CRAPPLE!', 'Ketchup!', "Chocolate!"]
+FILLER_ITEM_NAMES = ['BUNGER!', 'BOPSICLE!', 'STRABBY!', 'CRAPPLE!', 'Ketchup!', "Chocolate!", "Hot Sauce!", "Ranch!", "Peanut Butter!", "Cheese Sauce!"]
 MAX_GOLDEN_SNAX = 50

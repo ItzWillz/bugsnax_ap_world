@@ -12,7 +12,7 @@ from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser,
 from .bugsnax_memory import get_pymem, read_item, write_item
 from .bugsnax_paths import find_save_path
 from .bug_capture_checks import BUG_CAPTURE_CHECKS, SPECIAL_LOCATIONS
-from .item_name_translation import GRANTABLE_TOOLS, KNOWN_UNSUPPORTED, MOD_SUPPRESSED_TOOLS, USE_FILLER
+from .item_name_translation import GRANTABLE_TOOLS, KNOWN_UNSUPPORTED, MOD_SUPPRESSED_TOOLS, USE_FILLER, SUPPRESSED_SAUCES
 
 GATE = "AnyToolOwnedGate"
 POLL_INTERVAL = 0.5
@@ -21,9 +21,9 @@ QUEST_CHECKS = {
     "Collect Snak Trap": ("FilboMainQuest2", "Active"),
     "Collect Sauce Slinger": ("WambusMainQuest1", "Active"),
     # -- Still release checks upon logic break (Speedrun strat Tutorial --> Ghost Snaxburg --> Sugarpine Woods --> Frosted Peak --> Return to Sugarpine Woods)
-    "Collect Buggy Ball": [("GrambleMainQuest1", "Active"), ("GrambleMainQuest3", "Completed")],
-    "Collect SnakGrappler": [("GetHook", "ConditionMet"), ("ChandloMainQuest5", "Completed")],
-    "Collect Lunchpad": [("CromdoMainQuest1", "Active"), ("CromdoMainQuest4", "Completed")],
+    "Collect Buggy Ball": [("GrambleMainQuest1", "Active"), ("GrambleMainQuest1", "Completed")],
+    "Collect SnakGrappler": [("GetHook", "ConditionMet"), ("ChandloMainQuest1", "Completed")],
+    "Collect Lunchpad": [("CromdoMainQuest1", "Active"), ("CromdoMainQuest1", "Completed")],
 
     # --- Story missions (all require Sauce Slinger at minimum) ---
     "Gone Home!": ("FilboInterview", "Completed"),
@@ -354,7 +354,14 @@ def enforce_filler_grant(ctx: BugsnaxContext):
         try:
             write_item(ctx.pm, GATE, max(read_item(ctx.pm, GATE), 1))
             write_item(ctx.pm, f"{internal}_Selectable", grant_value)
-            ctx.ap_grant_fill.remove(item_name)
+            ctx.ap_grant_fill.remove(item_name)        
+        
+        # grant_value = 2 if internal in SUPPRESSED_SAUCES else 1
+        # try:
+        #     logger.debug(f"  ({item_name} - useable filler) checked via Enforce Filler Granting, {grant_value}, what's left {ctx.ap_grant_fill}")
+        #     # write_item(ctx.pm, GATE, max(read_item(ctx.pm, GATE), 1))
+        #     # write_item(ctx.pm, f"{internal}_Selectable", grant_value)
+        #     ctx.ap_grant_fill.remove(item_name)
         except Exception:
             pass
 
@@ -370,7 +377,7 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
         enforce_tool_grants(ctx)
         enforce_tool_suppression(ctx)
 
-        enforce_filler_grant(ctx)
+        #enforce_filler_grant(ctx)
 
         if ctx.save_path is None:
             try:
@@ -422,7 +429,7 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
                                 continue
                             new_status = quest_status(quests.get(quest_name))
                             old_status = ctx.last_quest_status.get(quest_name)
-                            if new_status == target_status and old_status != target_status:
+                            if new_status == target_status and (old_status != target_status or loc_name not in ctx.checked_locations_local):
                                 logger.debug(f"Detected '{quest_name}' -> {target_status}. "
                                             f"Sending check for '{loc_name}'...")
                                 ctx.send_location_check(loc_name)

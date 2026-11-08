@@ -47,7 +47,7 @@ location_table: dict[str, int] = {
     'Catch Big Bopsicle': BASE_ID + LOCATION_ID_OFFSET + 38,
     'Catch Rainbow Sweetiefly': BASE_ID + LOCATION_ID_OFFSET + 39,
     'Catch Nutty Snakpod': BASE_ID + LOCATION_ID_OFFSET + 40,
-    'Catch All Inner Bugs!': BASE_ID + LOCATION_ID_OFFSET + 41,
+    #'Catch All Inner Bugs!': BASE_ID + LOCATION_ID_OFFSET + 41,
     'Complete the Final Mission': BASE_ID + LOCATION_ID_OFFSET + 42,
     'Bugsnax File Complete': BASE_ID + LOCATION_ID_OFFSET + 43,
     'Catch Strabby': BASE_ID + LOCATION_ID_OFFSET + 44,
