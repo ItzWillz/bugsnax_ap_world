@@ -437,20 +437,18 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
                     if new_val is not None:
                         ctx.last_captured_state[save_key] = new_val
 
-                try:
-                    for loc_name, save_key in SPECIAL_LOCATIONS.items():
-                        if loc_name in ctx.checked_locations_local:
-                            continue
-                        new_spec = get_special_for_name(save_key, ctx)
-                        old_spec = ctx.last_special_state.get(tuple(save_key))
+                for loc_name, save_key in SPECIAL_LOCATIONS.items():
+                    if loc_name in ctx.checked_locations_local:
+                        continue
+                    new_spec = get_special_for_name(save_key, ctx)
+                    old_spec = ctx.last_special_state.get(tuple(save_key))
 
-                        if new_spec is not None and old_spec is None:
-                            logger.debug(f"Detected capture: {loc_name}. Sending check...")
-                            ctx.send_location_check(loc_name)
-                        if new_spec is not None:
-                            ctx.last_special_state[save_key] = new_spec                        
-                except:
-                    logger.debug(f"Error on Looping Special Location checks: {traceback.format_exc()}")
+                    if new_spec is not None and old_spec is None:
+                        logger.debug(f"Detected capture: {loc_name}. Sending check...")
+                        ctx.send_location_check(loc_name)
+                        logger.debug("Sent Special Location")
+                    if new_spec is not None:
+                        ctx.last_special_state[tuple(save_key)] = new_spec                        
 
                 for loc_name, (quest_name, target_status) in QUEST_CHECKS.items():
                     # Checks Quests with multiple cases (Awards Buggy Ball/Lunchpad/SnakGrappler when leaving Frosted Peak Skip)
