@@ -122,4 +122,24 @@ BUG_CAPTURE_CHECKS = {
 
 
 # Not tied to a single Captured-section entry -- needs separate logic later
-SPECIAL_LOCATIONS = ["Catch All Inner Bugs!", "Starting Region Randomizer"]
+#SPECIAL_LOCATIONS = {"Catch All Inner Bugs!", "Starting Region Randomizer"} Reminder to add all inner bugs because it's a good goal idea
+
+SPECIAL_LOCATIONS = {
+    "Catch the Bevvies!"            : ["Catch Sodie D", "Catch Dr. Sodie", "Catch Mt Sodie", "Catch La Sodieux"],
+    "Catch the Weenies!"            : ["Catch Weenyworm", "Catch Shy Weenyworm"],
+    "Catch the Root Pack!"          : ["Catch Rootle", "Catch White Rootle"],
+    "Catch All Inner Bugs!"         : ["Catch Strabby", "Catch White Strabby", "Catch Rootle", "Catch White Rootle", "Catch Bunger", "Catch Fryder", "Catch BBQ Bunger", "Catch Sweet Fryder", "Catch Shishkabug", "Catch Tropicabug",
+                                        "Catch Weenyworm", "Catch Shy Weenyworm", "Catch Sweetiefly", "Catch Lovely Sweetiefly", "Catch Crystal Sweetiefly", "Catch Rainbow Sweetiefly", "Catch Razzby", "Catch Green Grapeskeeto", "Catch Crapple", "Catch Snaquiri",
+                                        "Catch Kweeble", "Catch Dr. Sodie", "Catch Crispy Snakpod", "Catch Grumpy Snakpod", "Catch Twisty Snakpod", "Catch Puffy Snakpod", "Catch Nutty Snakpod", "Catch Sandopede", "Catch Sub Sandopede", "Catch Pinkle",
+                                        "Catch Poptick", "Catch Caramel Poptick", "Catch Cheepoof", "Catch White Cheepoof", "Catch Ribblepede", "Catch Inchwrap", "Catch Green Lollive", "Catch Pineantula", "Catch Orange Peelbug", "Catch Ruby Peelbug",
+                                        "Catch Green Peelbug", "Catch Yellow Peelbug", "Catch Spuddy", "Catch Scorpenyo", "Catch Cinnasnail", "Catch Bopsicle", "Catch Big Bopsicle", "Catch Kwookie", "Catch Sprinklepede", "Catch Hunnabee",
+                                        "Catch Cobhopper", "Catch Charmallow", "Catch Baja Tacroach", "Catch Waffstackarak"
+                                      ],
+    "Catch all Legendary Snax!"     : ["Catch Mama Mewon", "Catch Megamaki", "Catch Mothza Supreme", "Catch Daddy Cakelegs"],
+    "Catch the Huntsman Spiders!"   : ["Catch Kwookie", "Catch Chippie", "Catch Cheezer"],
+    "Catch the Poofs!"              : ["Catch Cheepoof", "Catch White Cheepoof", "Catch Flamin' Cheepoof"],
+    "Catch the Peels!"              : ["Catch Orange Peelbug", "Catch Ruby Peelbug", "Catch Green Peelbug", "Catch Yellow Peelbug"],
+    "Snakpod Fanatic!"              : ["Catch Crispy Snakpod", "Catch Grumpy Snakpod", "Catch Twisty Snakpod", "Catch Puffy Snakpod", "Catch Nutty Snakpod", "Catch Meaty Snakpod", "Catch Melty Snakpod", "Catch Fruity Snakpod"],
+    "Catch the Sweeties!"           : ["Catch Sweetiefly", "Catch Lovely Sweetiefly", "Catch Crystal Sweetiefly", "Catch Rainbow Sweetiefly"]
+
+}

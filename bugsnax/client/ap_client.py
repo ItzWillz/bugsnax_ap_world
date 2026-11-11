@@ -70,7 +70,6 @@ QUEST_CHECKS = {
     "Undergrowth!": ("WambusSideQuest3", "Completed"),
     'The Big Snoop!': ("BefficaSideQuest2", "Completed"),
     'Imitation Beef!': ("BefficaSideQuest3", "Completed"),
-
     'Training Day!': ("GrambleSideQuest2", "Completed"),
     'More to Love!': ("GrambleSideQuest3", "Completed"), 
     'Yellow Submarine!': ("WiggleSideQuest1", "Completed"), 
@@ -166,6 +165,7 @@ class BugsnaxContext(CommonContext):
         self.last_captured_state = {}
         self.last_quest_status = {}
         self.last_area_state = {}
+        self.last_special_state = {}
         self.baseline_established = False
 
         self.goaled = False
@@ -200,6 +200,7 @@ class BugsnaxContext(CommonContext):
             self.last_captured_state = {}
             self.last_quest_status = {}
             self.last_area_state = {}
+            self.last_special_state = {}
             self.baseline_established = False
             self.goaled = False
             self.reached_credits = False
@@ -365,6 +366,20 @@ def enforce_filler_grant(ctx: BugsnaxContext):
         except Exception:
             pass
 
+def get_special_for_save(ctx: BugsnaxContext):
+    if not ctx.last_captured_state:
+        return {}
+
+    specials = {}
+    for check, requirements in SPECIAL_LOCATIONS:
+        if all(item in ctx.last_captured_state for item in requirements):
+            specials[check] = "Completed"
+
+    return specials
+        
+
+def get_special_for_name(save_key, ctx: BugsnaxContext):
+    return "Completed" if all(item in ctx.checked_locations_local for item in save_key) else None
 
 async def bugsnax_watcher(ctx: BugsnaxContext):
     """Background task: this watches the save file for captures/quest transitions/
@@ -408,6 +423,7 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
                         for (q, _t) in QUEST_CHECKS.values() if quests.get(q) is not None
                     }
                     ctx.last_area_state = dict(save)
+                    ctx.last_special_state = dict(get_special_for_save(ctx))
                     ctx.baseline_established = True
 
                 for loc_name, save_key in BUG_CAPTURE_CHECKS.items():
@@ -420,6 +436,21 @@ async def bugsnax_watcher(ctx: BugsnaxContext):
                         ctx.send_location_check(loc_name)
                     if new_val is not None:
                         ctx.last_captured_state[save_key] = new_val
+
+                try:
+                    for loc_name, save_key in SPECIAL_LOCATIONS.items():
+                        if loc_name in ctx.checked_locations_local:
+                            continue
+                        new_spec = get_special_for_name(save_key, ctx)
+                        old_spec = ctx.last_special_state.get(tuple(save_key))
+
+                        if new_spec is not None and old_spec is None:
+                            logger.debug(f"Detected capture: {loc_name}. Sending check...")
+                            ctx.send_location_check(loc_name)
+                        if new_spec is not None:
+                            ctx.last_special_state[save_key] = new_spec                        
+                except:
+                    logger.debug(f"Error on Looping Special Location checks: {traceback.format_exc()}")
 
                 for loc_name, (quest_name, target_status) in QUEST_CHECKS.items():
                     # Checks Quests with multiple cases (Awards Buggy Ball/Lunchpad/SnakGrappler when leaving Frosted Peak Skip)
